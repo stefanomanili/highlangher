@@ -804,15 +804,26 @@ function drawMap(id,dayIdx,showAll){
 
   // Overnight stops on overview
   if(showAll){
-    [[SPLIT1,'Alba',DAY_COLORS[0]],[SPLIT2,'Bossolasco',DAY_COLORS[1]]].forEach(([idx,name,col])=>{
+    // Draw all city labels on overview map, coloured by day segment
+    [0,1,2].forEach(di=>{
+      if(!CITIES[di]) return;
+      const cityCol = DAY_COLORS[di];
+      CITIES[di].forEach(([name,lat,lon,emoji])=>{
+        const[x,y]=xy(lat,lon);
+        ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
+        ctx.fillStyle='#fff';ctx.fill();
+        ctx.strokeStyle=cityCol;ctx.lineWidth=1.5;ctx.stroke();
+        drawCityLabel(ctx,x,y,name,emoji,cityCol,W,H);
+      });
+    });
+
+    // Overnight stop markers on top (drawn last so they're above city labels)
+    [[SPLIT1,'Alba','🏨'],[SPLIT2,'Bossolasco','🏨']].forEach(([idx,name,icon])=>{
       const[mx,my]=xy(COORDS[idx][0],COORDS[idx][1]);
-      ctx.beginPath();ctx.arc(mx,my,8,0,Math.PI*2);
+      ctx.beginPath();ctx.arc(mx,my,9,0,Math.PI*2);
       ctx.fillStyle='#1a1410';ctx.fill();ctx.strokeStyle='#d4a043';ctx.lineWidth=2;ctx.stroke();
-      ctx.font='bold 8px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillStyle='#d4a043';ctx.fillText('🏨',mx,my);
-      const tw=ctx.measureText(name).width;
-      ctx.fillStyle='rgba(26,20,16,.9)';ctx.fillRect(mx-tw/2-4,my+12,tw+8,14);
-      ctx.fillStyle='#f5f0e8';ctx.fillText(name,mx,my+19);
+      ctx.font='11px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(icon,mx,my);
     });
   }
 
@@ -929,8 +940,20 @@ function initAll(){
   drawMap('map0',0,false);drawMap('map1',1,false);drawMap('map2',2,false);
   drawEle('ele0',0);drawEle('ele1',1);drawEle('ele2',2);
 }
+
+// Draw once on load
 initAll();
-window.addEventListener('resize',initAll);
+
+// Resize: only redraw if WIDTH changes (ignores mobile scroll which only changes height)
+let _lastW = window.innerWidth;
+let _rTimer = null;
+window.addEventListener('resize', () => {
+  const w = window.innerWidth;
+  if(Math.abs(w - _lastW) < 10) return;
+  _lastW = w;
+  clearTimeout(_rTimer);
+  _rTimer = setTimeout(initAll, 250);
+});
 </script>
 </body>
 </html>
