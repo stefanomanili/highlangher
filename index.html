@@ -5,109 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Highlangher — 2–5 Luglio 2026</title>
 <style>
+/* ── RESET & BASE ─────────────────────────────── */
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:Georgia,serif;background:#f5f0e8;color:#1a1410;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:Georgia,serif;background:#f5f0e8;color:#1a1410;overflow-x:hidden;}
 
-.hero{background:#1a1410;padding:52px 48px 40px;border-bottom:3px solid #d4a043;}
-.hero-label{font-family:monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#d4a043;margin-bottom:14px;}
-h1{font-size:clamp(40px,7vw,78px);font-weight:bold;color:#f5f0e8;line-height:.95;letter-spacing:-.02em;}
+/* ── HERO ─────────────────────────────────────── */
+.hero{background:#1a1410;padding:36px 20px 32px;border-bottom:3px solid #d4a043;}
+.hero-label{font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#d4a043;margin-bottom:12px;}
+h1{font-size:clamp(38px,10vw,78px);font-weight:bold;color:#f5f0e8;line-height:.92;letter-spacing:-.02em;}
 h1 span{color:#d4a043;font-style:italic;}
-.hero-sub{font-size:14px;color:rgba(245,240,232,.5);margin-top:12px;font-style:italic;}
-.hero-pills{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
-.pill{font-family:monospace;font-size:10px;letter-spacing:.1em;padding:4px 10px;border-radius:2px;text-transform:uppercase;}
+.hero-sub{font-size:13px;color:rgba(245,240,232,.5);margin-top:10px;font-style:italic;line-height:1.5;}
+.hero-pills{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.pill{font-family:monospace;font-size:9px;letter-spacing:.08em;padding:4px 9px;border-radius:2px;text-transform:uppercase;white-space:nowrap;}
 
-.totals{background:#1a1410;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(212,160,67,.12);}
-.tot{padding:22px 28px;border-right:1px solid rgba(255,255,255,.06);}
-.tot:last-child{border-right:none;}
-.tot-val{font-size:30px;font-weight:bold;color:#f5f0e8;line-height:1;}
-.tot-unit{font-size:12px;color:#d4a043;font-family:monospace;}
-.tot-lbl{font-size:10px;color:rgba(245,240,232,.3);letter-spacing:.15em;text-transform:uppercase;margin-top:4px;font-family:monospace;}
+/* ── TOTALS ───────────────────────────────────── */
+.totals{background:#1a1410;display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid rgba(212,160,67,.12);}
+.tot{padding:16px 18px;border-right:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);}
+.tot:nth-child(2){border-right:none;}
+.tot:nth-child(3){border-bottom:none;}
+.tot:nth-child(4){border-right:none;border-bottom:none;}
+.tot-val{font-size:26px;font-weight:bold;color:#f5f0e8;line-height:1;}
+.tot-unit{font-size:11px;color:#d4a043;font-family:monospace;}
+.tot-lbl{font-size:9px;color:rgba(245,240,232,.3);letter-spacing:.12em;text-transform:uppercase;margin-top:4px;font-family:monospace;}
 
-.overview-wrap{padding:48px 48px 0;}
-.sec-label{font-family:monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c45c2e;margin-bottom:8px;}
-.sec-title{font-size:clamp(20px,3vw,30px);font-weight:bold;margin-bottom:20px;}
+/* ── OVERVIEW MAP ─────────────────────────────── */
+.overview-wrap{padding:32px 20px 0;}
+.sec-label{font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c45c2e;margin-bottom:6px;}
+.sec-title{font-size:clamp(18px,4vw,30px);font-weight:bold;margin-bottom:16px;}
 .map-wrap{background:#e8e2d8;border-radius:4px;border:1px solid #d0c8bc;overflow:hidden;position:relative;}
 canvas.map-c{display:block;width:100%;}
-.map-legend{position:absolute;bottom:12px;left:12px;background:rgba(26,20,16,.82);color:#f5f0e8;padding:8px 12px;border-radius:3px;font-family:monospace;font-size:10px;line-height:2;}
+.map-legend{position:absolute;bottom:10px;left:10px;background:rgba(26,20,16,.85);color:#f5f0e8;padding:7px 10px;border-radius:3px;font-family:monospace;font-size:9px;line-height:2;}
 
-.days-container{padding:48px;}
-.day-block{margin-bottom:72px;padding-bottom:72px;border-bottom:2px solid #e0d8cc;}
+/* ── DAYS ─────────────────────────────────────── */
+.days-container{padding:32px 20px;}
+.day-block{margin-bottom:56px;padding-bottom:56px;border-bottom:2px solid #e0d8cc;}
 .day-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
 
-.day-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;}
-.day-number{font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;}
-.day-route{display:flex;align-items:center;gap:10px;}
-.day-from,.day-to{font-size:clamp(20px,3vw,32px);font-weight:bold;}
-.day-arrow{color:#d4a043;font-size:18px;}
-.day-date{font-family:monospace;font-size:11px;color:#8a7a6a;margin-top:5px;letter-spacing:.1em;}
-.day-stats{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
-.ds{text-align:center;}
-.ds-val{font-size:24px;font-weight:bold;line-height:1;}
-.ds-unit{font-size:11px;font-family:monospace;color:#d4a043;}
-.ds-lbl{font-size:9px;font-family:monospace;letter-spacing:.12em;text-transform:uppercase;color:#8a7a6a;margin-top:3px;}
+.day-header{margin-bottom:20px;}
+.day-number{font-family:monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:5px;}
+.day-route{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.day-from,.day-to{font-size:clamp(22px,6vw,32px);font-weight:bold;}
+.day-arrow{color:#d4a043;font-size:16px;}
+.day-date{font-family:monospace;font-size:10px;color:#8a7a6a;margin-top:4px;letter-spacing:.08em;}
+.day-stats{display:flex;gap:0;margin-top:16px;background:#1a1410;border-radius:4px;overflow:hidden;}
+.ds{flex:1;padding:12px 8px;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.ds:last-child{border-right:none;}
+.ds-val{font-size:18px;font-weight:bold;line-height:1;color:#f5f0e8;}
+.ds-unit{font-size:10px;font-family:monospace;color:#d4a043;}
+.ds-lbl{font-size:8px;font-family:monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-top:3px;}
 
-.day-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
-.ele-wrap{background:#1a1410;border-radius:4px;padding:20px 20px 14px;position:relative;}
+/* ── MAP + ELEVATION (stacked on mobile) ──────── */
+.day-cols{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.ele-wrap{background:#fff;border-radius:4px;padding:0;position:relative;border:1px solid #e8e0d4;overflow:hidden;}
 canvas.ele-c{display:block;width:100%;}
-.ele-x{display:flex;justify-content:space-between;margin-top:5px;}
-.ele-x span{font-family:monospace;font-size:9px;color:rgba(245,240,232,.25);}
+.ele-x{display:flex;justify-content:space-between;margin-top:4px;}
+.ele-x span{font-family:monospace;font-size:8px;color:rgba(245,240,232,.25);}
 
-/* POI SECTION */
-.poi-section{margin-bottom:28px;}
-.subsec-label{font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+/* ── POI ──────────────────────────────────────── */
+.poi-section{margin-bottom:20px;}
+.subsec-label{font-family:monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .subsec-label::after{content:'';flex:1;height:1px;background:#e0d8cc;}
-.poi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
-.poi-card{background:#fff;border-radius:4px;border:1px solid #e8e0d4;padding:16px 18px;border-top:3px solid;transition:box-shadow .2s;}
-.poi-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
-.poi-icon{font-size:20px;margin-bottom:8px;display:block;}
-.poi-name{font-size:13px;font-weight:bold;color:#1a1410;margin-bottom:6px;line-height:1.3;}
-.poi-desc{font-size:11px;color:#6a5a4a;line-height:1.55;margin-bottom:10px;}
-.poi-link{font-family:monospace;font-size:10px;color:#2d6a9f;text-decoration:none;letter-spacing:.05em;}
-.poi-link:hover{text-decoration:underline;}
+.poi-grid{display:flex;flex-direction:column;gap:10px;}
+.poi-card{background:#fff;border-radius:4px;border:1px solid #e8e0d4;padding:14px 16px;border-top:3px solid;}
+.poi-icon{font-size:18px;margin-bottom:6px;display:block;}
+.poi-name{font-size:13px;font-weight:bold;color:#1a1410;margin-bottom:5px;line-height:1.3;}
+.poi-desc{font-size:12px;color:#6a5a4a;line-height:1.55;margin-bottom:10px;}
+.poi-link{display:inline-block;font-family:monospace;font-size:10px;color:#2d6a9f;text-decoration:none;padding:5px 10px;border:1px solid rgba(45,106,159,.3);border-radius:2px;background:rgba(45,106,159,.06);}
 
-/* PLACES */
-.places-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
+/* ── PLACES ───────────────────────────────────── */
+.places-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:8px;}
 .place-card{background:#fff;border-radius:4px;border:1px solid #e0d8cc;overflow:hidden;}
-.place-card-header{padding:16px 20px 12px;border-bottom:1px solid #f0e8dc;}
-.place-type{font-family:monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#8a7a6a;margin-bottom:6px;}
-.place-name{font-size:17px;font-weight:bold;color:#1a1410;line-height:1.2;}
-.place-card-body{padding:14px 20px;}
-.place-address{font-family:monospace;font-size:11px;color:#6a5a4a;margin-bottom:10px;line-height:1.5;}
-.place-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.place-link{font-family:monospace;font-size:10px;padding:4px 10px;border-radius:2px;text-decoration:none;letter-spacing:.05em;border:1px solid;}
+.place-card-header{padding:14px 16px 10px;border-bottom:1px solid #f0e8dc;}
+.place-type{font-family:monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#8a7a6a;margin-bottom:5px;}
+.place-name{font-size:16px;font-weight:bold;color:#1a1410;line-height:1.2;}
+.place-card-body{padding:12px 16px;}
+.place-address{font-family:monospace;font-size:11px;color:#6a5a4a;margin-bottom:10px;line-height:1.6;}
+.place-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.place-link{font-family:monospace;font-size:10px;padding:6px 12px;border-radius:2px;text-decoration:none;letter-spacing:.04em;border:1px solid;}
 .link-maps{color:#2d6a9f;border-color:rgba(45,106,159,.3);background:rgba(45,106,159,.06);}
 .link-web{color:#3d7a4f;border-color:rgba(61,122,79,.3);background:rgba(61,122,79,.06);}
-.place-link:hover{opacity:.7;}
-.reviews-title{font-family:monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#a09080;margin-bottom:8px;}
-.review{background:#faf6f0;border-radius:3px;padding:10px 12px;margin-bottom:6px;font-size:12px;line-height:1.5;color:#3a2a1a;border-left:2px solid #d4a043;font-style:italic;}
+.reviews-title{font-family:monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#a09080;margin-bottom:7px;}
+.review{background:#faf6f0;border-radius:3px;padding:10px 12px;margin-bottom:6px;font-size:12px;line-height:1.55;color:#3a2a1a;border-left:2px solid #d4a043;font-style:italic;}
 .review-author{font-family:monospace;font-size:9px;color:#a09080;margin-top:4px;font-style:normal;}
 
-.wp-section{margin-bottom:28px;}
-.wp-title{font-family:monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+/* ── WAYPOINTS ────────────────────────────────── */
+.wp-section{margin-bottom:20px;}
+.wp-title{font-family:monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
 .wp-title::after{content:'';flex:1;height:1px;background:#e0d8cc;}
 .wp-list{display:flex;flex-direction:column;gap:1px;}
-.wp-item{background:#f5f0e8;padding:13px 18px;display:flex;align-items:center;gap:14px;border-left:3px solid transparent;transition:background .15s;}
-.wp-item:hover{background:white;}
-.wp-num{font-family:monospace;font-size:10px;color:#d4a043;min-width:24px;}
-.wp-name{font-size:14px;font-weight:bold;flex:1;}
-.wp-type{font-family:monospace;font-size:10px;color:#6b7c5e;}
+.wp-item{background:#f5f0e8;padding:12px 14px;display:flex;align-items:center;gap:12px;border-left:3px solid transparent;}
+.wp-num{font-family:monospace;font-size:10px;color:#d4a043;min-width:22px;}
+.wp-name{font-size:13px;font-weight:bold;flex:1;line-height:1.3;}
+.wp-type{font-family:monospace;font-size:9px;color:#6b7c5e;}
 
-footer{background:#1a1410;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;margin-top:48px;}
-.ft{font-size:17px;color:#f5f0e8;font-style:italic;}
-.fm{font-family:monospace;font-size:10px;color:rgba(245,240,232,.28);text-align:right;line-height:2;letter-spacing:.08em;}
+/* ── FOOTER ───────────────────────────────────── */
+footer{background:#1a1410;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:40px;text-align:center;}
+.ft{font-size:16px;color:#f5f0e8;font-style:italic;}
+.fm{font-family:monospace;font-size:9px;color:rgba(245,240,232,.28);line-height:2;letter-spacing:.08em;}
 
-@media(max-width:768px){
-  .hero,.overview-wrap,.days-container{padding-left:20px;padding-right:20px;}
-  .totals{grid-template-columns:repeat(2,1fr);}
-  .day-cols,.places-grid{grid-template-columns:1fr;}
-  .day-header{flex-direction:column;}
-  .poi-grid{grid-template-columns:1fr 1fr;}
-  footer{flex-direction:column;gap:12px;padding:24px 20px;}
-  .fm{text-align:center;}
+/* ── TABLET+ ──────────────────────────────────── */
+@media(min-width:600px){
+  .hero{padding:44px 32px 36px;}
+  .overview-wrap{padding:40px 32px 0;}
+  .days-container{padding:40px 32px;}
+  .totals{grid-template-columns:repeat(4,1fr);}
+  .tot{border-bottom:none;}
+  .tot:nth-child(2){border-right:1px solid rgba(255,255,255,.06);}
+  .day-stats{margin-top:12px;}
+  .ds-val{font-size:22px;}
+  .poi-grid{display:grid;grid-template-columns:repeat(2,1fr);}
+  .places-grid{display:grid;grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:row;justify-content:space-between;padding:28px 32px;text-align:left;}
+  .fm{text-align:right;}
 }
-@media(max-width:480px){
-  .poi-grid{grid-template-columns:1fr;}
+
+/* ── DESKTOP ──────────────────────────────────── */
+@media(min-width:900px){
+  .hero{padding:52px 48px 40px;}
+  .overview-wrap{padding:48px 48px 0;}
+  .days-container{padding:48px;}
+  .day-header{display:flex;align-items:flex-start;justify-content:space-between;}
+  .day-stats{flex-direction:row;background:transparent;border-radius:0;margin-top:0;gap:24px;}
+  .ds{background:none;padding:0;border:none;text-align:center;}
+  .ds-val{font-size:24px;color:#1a1410;}
+  .ds-unit{color:#d4a043;}
+  .ds-lbl{color:#8a7a6a;}
+  .day-cols{flex-direction:row;}
+  .day-cols > *{flex:1;}
+  .poi-grid{grid-template-columns:repeat(4,1fr);}
+  footer{padding:28px 48px;}
 }
+
+/* ── CITY CARDS ───────────────────────────────── */
+.city-section{margin-bottom:20px;}
+.city-list{display:flex;flex-direction:column;gap:12px;}
+.city-card{background:#fff;border-radius:4px;border:1px solid #e8e0d4;overflow:hidden;border-left:4px solid;}
+.city-card-top{padding:14px 16px 10px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
+.city-emoji{font-size:22px;flex-shrink:0;margin-top:2px;}
+.city-meta{flex:1;}
+.city-name{font-size:15px;font-weight:bold;color:#1a1410;line-height:1.2;}
+.city-tag{font-family:monospace;font-size:9px;color:#8a7a6a;letter-spacing:.08em;margin-top:3px;}
+.city-km{font-family:monospace;font-size:10px;font-weight:bold;margin-top:2px;}
+.city-chevron{font-size:12px;color:#c0b8aa;transition:transform .25s;align-self:center;}
+.city-card.open .city-chevron{transform:rotate(180deg);}
+.city-body{display:none;padding:0 16px 14px;}
+.city-card.open .city-body{display:block;}
+.city-desc{font-size:12px;color:#4a3a2a;line-height:1.6;margin-bottom:10px;}
+.city-highlights{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.city-hl{font-family:monospace;font-size:9px;background:#f5f0e8;border:1px solid #e0d8cc;border-radius:2px;padding:3px 8px;color:#5a4a3a;letter-spacing:.04em;}
+.city-maps{font-family:monospace;font-size:10px;color:#2d6a9f;text-decoration:none;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid rgba(45,106,159,.3);border-radius:2px;background:rgba(45,106,159,.06);}
+@media(min-width:600px){
+  .city-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+}
+@media(min-width:900px){
+  .city-list{grid-template-columns:repeat(2,1fr);}
+}
+
 </style>
 </head>
 <body>
@@ -207,13 +261,83 @@ footer{background:#1a1410;padding:28px 48px;display:flex;justify-content:space-b
   </div>
   <div class="day-cols">
     <div class="map-wrap"><canvas class="map-c" id="map0" height="280"></canvas></div>
-    <div class="ele-wrap"><canvas class="ele-c" id="ele0" height="220"></canvas>
-      <div class="ele-x"><span>0 km</span><span>16 km</span><span>32 km</span><span>48 km</span></div>
+    <div class="ele-wrap"><canvas class="ele-c" id="ele0" height="240"></canvas>
+      
     </div>
   </div>
   <div class="wp-section">
     <div class="wp-title" style="color:#2d6a9f">📍 Tappe GPS sul percorso</div>
     <div class="wp-list" id="wp0"></div>
+  </div>
+
+  <div class="city-section">
+    <div class="subsec-label" style="color:#2d6a9f;margin-bottom:12px;">🏙️ Città attraversate</div>
+    <div class="city-list">
+    <div class="city-card" style="border-left-color:#2d6a9f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏛️</span>
+        <div class="city-meta">
+          <div class="city-name">Bistagno</div>
+          <div class="city-tag">Borgo storico · Alt. 200m</div>
+          <div class="city-km" style="color:#2d6a9f">km 2</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Borgo natale dello scultore Giulio Monteverde, autore di opere celebrate in tutto il mondo. La Gipsoteca conserva i suoi gessi originali. Punto di partenza sulle colline dell'Alto Monferrato, porta verso le Langhe piemontesi.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Gipsoteca Giulio Monteverde</span><span class="city-hl">📍 Centro storico medievale</span><span class="city-hl">📍 Colline del Bormida</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Bistagno+Alessandria" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#2d6a9f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🍾</span>
+        <div class="city-meta">
+          <div class="city-name">Canelli</div>
+          <div class="city-tag">Città del vino · UNESCO · Alt. 157m</div>
+          <div class="city-km" style="color:#2d6a9f">km 16</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Capitale italiana dello spumante: nel 1850 Carlo Gancia adattò qui la méthode champenoise al Moscato, creando il primo spumante italiano. Le Cattedrali Sotterranee — cantine nel tufo fino a 32 metri per 20 km — sono Patrimonio UNESCO dal 2014. Lo scrittore Cesare Pavese la definì «un confine, l'apertura verso un mondo lontano».</div>
+        <div class="city-highlights"><span class="city-hl">📍 Cattedrali Sotterranee UNESCO</span><span class="city-hl">📍 Castello Gancia + Stërnìa</span><span class="city-hl">📍 Torre dei Contini — panorama 360°</span><span class="city-hl">📍 Cantine Gancia, Contratto, Coppo, Bosca</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Canelli+Asti" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#2d6a9f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏘️</span>
+        <div class="city-meta">
+          <div class="city-name">Neive</div>
+          <div class="city-tag">Borgo più bello d'Italia · UNESCO · Alt. 308m</div>
+          <div class="city-km" style="color:#2d6a9f">km 37</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Uno dei Borghi più Belli d'Italia con impianto medievale perfettamente conservato. La Torre dell'Orologio domina il centro storico; dal punto panoramico in Via Giachino lo sguardo spazia sui vigneti UNESCO. Produce quattro DOCG: Barbaresco, Moscato, Dolcetto e Arneis. La panchina gigante verde n°23 è uno dei punti panoramici più amati.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Torre dell'Orologio</span><span class="city-hl">📍 Punto panoramico Via Giachino</span><span class="city-hl">📍 Panchina Gigante n°23</span><span class="city-hl">📍 Quattro DOCG: Barbaresco, Moscato, Dolcetto, Arneis</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Neive+Alba" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#2d6a9f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🗼</span>
+        <div class="city-meta">
+          <div class="city-name">Barbaresco</div>
+          <div class="city-tag">Borgo del Nebbiolo · UNESCO · Alt. 274m</div>
+          <div class="city-km" style="color:#2d6a9f">km 42</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">600 abitanti, una torre medievale e un vino che vale il viaggio. La Torre di Barbaresco svetta a picco sul fiume Tanaro. Nella chiesa sconsacrata di San Donato ha sede l'Enoteca Regionale del Barbaresco. Qui si trova la cantina Gaja, una delle più iconiche d'Italia.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Torre medievale sul Tanaro</span><span class="city-hl">📍 Enoteca Regionale (ex Chiesa San Donato)</span><span class="city-hl">📍 Cantina Gaja</span><span class="city-hl">📍 Vigneti di Nebbiolo UNESCO</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Barbaresco+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    </div>
   </div>
   <div class="poi-section">
     <div class="subsec-label" style="color:#2d6a9f;">🗺️ Cosa vedere lungo la strada</div>
@@ -256,13 +380,131 @@ footer{background:#1a1410;padding:28px 48px;display:flex;justify-content:space-b
   </div>
   <div class="day-cols">
     <div class="map-wrap"><canvas class="map-c" id="map1" height="280"></canvas></div>
-    <div class="ele-wrap"><canvas class="ele-c" id="ele1" height="220"></canvas>
-      <div class="ele-x"><span>0 km</span><span>14 km</span><span>27 km</span><span>41 km</span></div>
+    <div class="ele-wrap"><canvas class="ele-c" id="ele1" height="240"></canvas>
+      
     </div>
   </div>
   <div class="wp-section">
     <div class="wp-title" style="color:#7c2d3b">📍 Tappe GPS sul percorso</div>
     <div class="wp-list" id="wp1"></div>
+  </div>
+
+  <div class="city-section">
+    <div class="subsec-label" style="color:#7c2d3b;margin-bottom:12px;">🏙️ Città attraversate</div>
+    <div class="city-list">
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏙️</span>
+        <div class="city-meta">
+          <div class="city-name">Alba</div>
+          <div class="city-tag">Capitale delle Langhe · Alt. 172m</div>
+          <div class="city-km" style="color:#7c2d3b">km 52</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">«La città delle cento torri» è il cuore pulsante delle Langhe. Piazza Risorgimento è il salotto cittadino. Il Duomo di San Lorenzo e le torri medievali raccontano secoli di storia. Alba è la capitale mondiale del Tartufo Bianco — la Fiera internazionale si tiene ogni ottobre. Negozietti di vino e tartufo si alternano lungo le vie del centro.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Piazza Risorgimento</span><span class="city-hl">📍 Duomo di San Lorenzo</span><span class="city-hl">📍 Fiera del Tartufo Bianco (ottobre)</span><span class="city-hl">📍 Torri medievali</span><span class="city-hl">📍 Enoteca Regionale</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Alba+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏰</span>
+        <div class="city-meta">
+          <div class="city-name">Grinzane Cavour</div>
+          <div class="city-tag">Castello UNESCO · Alt. 195m</div>
+          <div class="city-km" style="color:#7c2d3b">km 60</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Il Castello domina le colline UNESCO dall'XI secolo. Camillo Benso — padre del Risorgimento italiano — fu qui sindaco dal 1832 al 1849 e avviò le prime sperimentazioni enologiche moderne. Il castello ospita il Museo delle Langhe, l'Enoteca Regionale Piemontese e un vigneto sperimentale con la collezione di vitigni più completa d'Europa.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Castello medievale (XI sec.) — Camillo Cavour</span><span class="city-hl">📍 Museo delle Langhe</span><span class="city-hl">📍 Enoteca Regionale Piemontese Cavour</span><span class="city-hl">📍 Vigneto sperimentale — collezione vitigni europea</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Castello+Grinzane+Cavour" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🌄</span>
+        <div class="city-meta">
+          <div class="city-name">La Morra</div>
+          <div class="city-tag">Balcone delle Langhe · Alt. 513m</div>
+          <div class="city-km" style="color:#7c2d3b">km 67</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">«Il nido d'aquila delle Langhe»: la Piazza Castello è la terrazza panoramica più celebre del Piemonte, con vista su tutto il comprensorio del Barolo fino alle Alpi. La Torre Campanaria del 1700 è salibile per una vista a 360°. La Cantina Comunale (1973) è uno dei punti di degustazione storici del Barolo.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Belvedere Piazza Castello — panorama sulle Alpi</span><span class="city-hl">📍 Torre Campanaria 1700 (salita possibile)</span><span class="city-hl">📍 Cantina Comunale del Barolo (1973)</span><span class="city-hl">📍 Sentieri tra i vigneti</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=La+Morra+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🍷</span>
+        <div class="city-meta">
+          <div class="city-name">Barolo</div>
+          <div class="city-tag">Il Re dei Vini · UNESCO · Alt. 301m</div>
+          <div class="city-km" style="color:#7c2d3b">km 72</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Il borgo che ha dato il nome al vino più famoso d'Italia. Il Castello Falletti ospita il WiMu — Museo del Vino, uno dei musei enologici più innovativi al mondo. Fu la marchesa Giulia Colbert Falletti a creare il Barolo moderno nell'800, intuendo per prima il potenziale del Nebbiolo in purezza.</div>
+        <div class="city-highlights"><span class="city-hl">📍 WiMu — Museo del Vino nel Castello Falletti</span><span class="city-hl">📍 Enoteca Regionale del Barolo</span><span class="city-hl">📍 Vigneti di Nebbiolo Patrimonio UNESCO</span><span class="city-hl">📍 Strade bianche tra i cru</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Barolo+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🎭</span>
+        <div class="city-meta">
+          <div class="city-name">Monforte d'Alba</div>
+          <div class="city-tag">Borgo più bello d'Italia · Alt. 480m</div>
+          <div class="city-km" style="color:#7c2d3b">km 79</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Borgo medievale aggrappato al colle a 480m. La sua gemma è l'Auditorium Horszowski: anfiteatro naturale nella roccia con acustica perfetta, che ospita ogni luglio il Monforinjazz — storico festival internazionale di jazz dal 1977. La Torre Campanaria del 1200 e le vie acciottolate ripide sono un viaggio nel Medioevo.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Auditorium Horszowski — anfiteatro naturale</span><span class="city-hl">📍 Monforinjazz (ogni luglio dal 1977)</span><span class="city-hl">📍 Torre Campanaria del 1200</span><span class="city-hl">📍 Panorama sui vigneti del Barolo</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Monforte+d'Alba+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🌿</span>
+        <div class="city-meta">
+          <div class="city-name">Dogliani</div>
+          <div class="city-tag">Capitale del Dolcetto · Alt. 295m</div>
+          <div class="city-km" style="color:#7c2d3b">km 87</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Porta dell'Alta Langa e capitale del Dolcetto di Dogliani DOCG. Due nuclei storici medievali — Dogliani Castello e Dogliani Borgo — separati dal torrente Rea raccontano secoli di storia. Da qui i paesaggi si fanno più selvaggi: le vigne lasciano spazio a noccioleti e boschi dell'Alta Langa.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Due borghi medievali separati dal torrente Rea</span><span class="city-hl">📍 Dolcetto di Dogliani DOCG</span><span class="city-hl">📍 Castello medievale</span><span class="city-hl">📍 Porta verso l'Alta Langa</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Dogliani+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#7c2d3b">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🌹</span>
+        <div class="city-meta">
+          <div class="city-name">Bossolasco</div>
+          <div class="city-tag">Il Paese delle Rose · Alt. 800m</div>
+          <div class="city-km" style="color:#7c2d3b">km 97</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">A 800 metri, il «paese delle rose»: Via Umberto I è addobbata da migliaia di rose colorate. Il Parco delle Rose Rare e Antiche costeggia il centro storico. L'Angelo dell'Alta Langa (scultura di Daniele Cazzato, 2015) commemora chi nascose i perseguitati ebrei durante la guerra. Ex meta estiva degli artisti torinesi.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Via Umberto I — migliaia di rose colorate</span><span class="city-hl">📍 Parco delle Rose Rare e Antiche</span><span class="city-hl">📍 Angelo dell'Alta Langa — scultura 2015</span><span class="city-hl">📍 Panorama a 800m — nelle giornate limpide si vede il mare</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Bossolasco+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    </div>
   </div>
   <div class="poi-section">
     <div class="subsec-label" style="color:#7c2d3b;">🗺️ Cosa vedere lungo la strada</div>
@@ -305,13 +547,83 @@ footer{background:#1a1410;padding:28px 48px;display:flex;justify-content:space-b
   </div>
   <div class="day-cols">
     <div class="map-wrap"><canvas class="map-c" id="map2" height="280"></canvas></div>
-    <div class="ele-wrap"><canvas class="ele-c" id="ele2" height="220"></canvas>
-      <div class="ele-x"><span>0 km</span><span>15 km</span><span>30 km</span><span>45 km</span></div>
+    <div class="ele-wrap"><canvas class="ele-c" id="ele2" height="240"></canvas>
+      
     </div>
   </div>
   <div class="wp-section">
     <div class="wp-title" style="color:#3d7a4f">📍 Tappe GPS sul percorso</div>
     <div class="wp-list" id="wp2"></div>
+  </div>
+
+  <div class="city-section">
+    <div class="subsec-label" style="color:#3d7a4f;margin-bottom:12px;">🏙️ Città attraversate</div>
+    <div class="city-list">
+    <div class="city-card" style="border-left-color:#3d7a4f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏡</span>
+        <div class="city-meta">
+          <div class="city-name">Cerretto Langhe</div>
+          <div class="city-tag">Borgo autentico · Alt. 700m</div>
+          <div class="city-km" style="color:#3d7a4f">km 100</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Piccolo borgo dell'Alta Langa a 700 metri, circondato da noccioleti e boschi. Uno degli angoli più autentici e meno turistici delle Langhe, dove il tempo sembra essersi fermato. Ottimo punto di sosta panoramico durante la discesa verso la valle.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Centro storico autentico</span><span class="city-hl">📍 Panorama sull'Alta Langa</span><span class="city-hl">📍 Noccioleti e boschi</span><span class="city-hl">📍 Atmosfera slow travel</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Cerretto+Langhe+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#3d7a4f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🌰</span>
+        <div class="city-meta">
+          <div class="city-name">Cortemilia</div>
+          <div class="city-tag">Capitale della Nocciola · Alt. 247m</div>
+          <div class="city-km" style="color:#3d7a4f">km 119</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Centro principale dell'Alta Langa e «Capitale della Nocciola Tonda Gentile delle Langhe IGP». Il borgo medievale è diviso dal torrente Bormida, con la parte alta dominata dai ruderi del castello e della torre dell'XI secolo. Lo spettacolare anfiteatro di colline con i caratteristici terrazzamenti in pietra è il panorama che accoglie chi arriva.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Ruderi Castello medievale (XI sec.)</span><span class="city-hl">📍 Torre medievale panoramica</span><span class="city-hl">📍 Nocciola Tonda Gentile IGP</span><span class="city-hl">📍 Anfiteatro collinare con terrazzamenti in pietra</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Cortemilia+Cuneo" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#3d7a4f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🏞️</span>
+        <div class="city-meta">
+          <div class="city-name">Bubbio</div>
+          <div class="city-tag">Valle Bormida · Alt. 303m</div>
+          <div class="city-km" style="color:#3d7a4f">km 134</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Borgo della Valle Bormida, confine tra Langa e Monferrato astigiano. Centro di produzione di Moscato e Brachetto, con cantine artigianali sulle colline. Tappa di rientro verso Bistagno tra paesaggi che fondono le due anime del viaggio.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Valle Bormida</span><span class="city-hl">📍 Moscato e Brachetto artigianale</span><span class="city-hl">📍 Paesaggi di confine Langa-Monferrato</span><span class="city-hl">📍 Colline dell'Alto Monferrato</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Bubbio+Asti" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    <div class="city-card" style="border-left-color:#3d7a4f">
+      <div class="city-card-top" onclick="this.parentElement.classList.toggle('open')">
+        <span class="city-emoji">🌾</span>
+        <div class="city-meta">
+          <div class="city-name">Sessame</div>
+          <div class="city-tag">Alto Monferrato · Alt. 310m</div>
+          <div class="city-km" style="color:#3d7a4f">km 141</div>
+        </div>
+        <span class="city-chevron">▼</span>
+      </div>
+      <div class="city-body">
+        <div class="city-desc">Piccolo borgo del Monferrato Acquese, sede de Il Giardinetto — il ristorante della prima cena del viaggio. Circondato da colline vitate e noccioleti, è uno di quei luoghi dove si respira ancora l'autenticità rurale piemontese. A soli 7 km da Bistagno, chiude l'anello del viaggio.</div>
+        <div class="city-highlights"><span class="city-hl">📍 Il Giardinetto — ristorante prima sera</span><span class="city-hl">📍 Colline vitate del Monferrato</span><span class="city-hl">📍 Paesaggi rurali autentici</span><span class="city-hl">📍 7 km da Bistagno — chiude l'anello</span></div>
+        <a class="city-maps" href="https://maps.google.com/?q=Sessame+Asti" target="_blank">📍 Apri in Google Maps</a>
+      </div>
+    </div>
+    </div>
   </div>
   <div class="poi-section">
     <div class="subsec-label" style="color:#3d7a4f;">🗺️ Cosa vedere lungo la strada</div>
@@ -381,6 +693,56 @@ const wpDays=WPTS.map(getWpDay);
 });
 
 // Draw map
+// City data per day segment [name, lat, lon, emoji]
+const CITIES = {
+  0: [['Bistagno',44.657,8.368,'🏛️'],['Canelli',44.723,8.292,'🍾'],['Neive',44.721,8.109,'🏘️'],['Barbaresco',44.725,8.081,'🗼']],
+  1: [['Alba',44.700,8.035,'🏙️'],['Grinzane C.',44.648,7.988,'🏰'],['La Morra',44.640,7.936,'🌄'],['Barolo',44.613,7.937,'🍷'],["Monforte d'A.",44.584,7.966,'🎭'],['Dogliani',44.535,7.942,'🌿'],['Bossolasco',44.536,8.045,'🌹']],
+  2: [['Cerretto L.',44.546,8.085,'🏡'],['Cortemilia',44.578,8.195,'🌰'],['Bubbio',44.658,8.272,'🏞️'],['Sessame',44.651,8.342,'🌾']]
+};
+// cumulative km per city (from our analysis)
+const CITY_KM = {
+  0: [1.9,16.3,37.2,42.0],
+  1: [52.5,60.2,66.7,71.6,78.8,86.6,97.2],
+  2: [99.9,119.3,134.3,141.3]
+};
+
+function drawCityLabel(ctx, x, y, name, emoji, col, W, H, side='auto'){
+  const fontSize = W < 300 ? 8 : 9;
+  ctx.font = `bold ${fontSize}px -apple-system,sans-serif`;
+  const tw = ctx.measureText(name).width;
+  const bw = tw + 14, bh = 15;
+
+  // Decide label direction: above or below, left or right
+  let lx = x, ly = y - 14;
+  let tx = x;
+  // avoid clipping edges
+  if(lx - bw/2 < 4) lx = bw/2 + 4;
+  if(lx + bw/2 > W - 4) lx = W - bw/2 - 4;
+  if(ly - bh < 2) ly = y + 14 + bh; // flip below
+
+  // dot line
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([2,2]);
+  ctx.beginPath();
+  ctx.moveTo(x, y - 5);
+  ctx.lineTo(x, ly + bh/2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // pill background
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.roundRect(lx - bw/2, ly - bh/2, bw, bh, 3);
+  ctx.fill();
+
+  // text
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(name, lx, ly);
+}
+
 function drawMap(id,dayIdx,showAll){
   const canvas=document.getElementById(id);
   if(!canvas)return;
@@ -400,50 +762,80 @@ function drawMap(id,dayIdx,showAll){
   const offX=pad+((W-pad*2)-(maxLon-minLon)*sc)/2;
   const offY=pad+((H-pad*2)-(maxLat-minLat)*sc)/2;
   function xy(lat,lon){return[offX+(lon-minLon)*sc,offY+(maxLat-lat)*sc];}
-  ctx.fillStyle='#e8e2d8';ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='rgba(200,194,182,.4)';ctx.lineWidth=1;
+
+  // Background
+  ctx.fillStyle='#edeae3';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(200,194,182,.35)';ctx.lineWidth=1;
   for(let i=0;i<=3;i++){
     const y=pad+(H-pad*2)/3*i;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
     const x=pad+(W-pad*2)/3*i;ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,H-pad);ctx.stroke();
   }
+
+  // Track(s)
   const segs=showAll?segments:[segments[dayIdx]];
   const cols=showAll?DAY_COLORS:[DAY_COLORS[dayIdx]];
   segs.forEach((seg,si)=>{
     ctx.beginPath();const[sx,sy]=xy(seg[0][0],seg[0][1]);ctx.moveTo(sx+1,sy+2);
     for(let i=1;i<seg.length;i++){const[x,y]=xy(seg[i][0],seg[i][1]);ctx.lineTo(x+1,y+2);}
-    ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=5;ctx.lineJoin='round';ctx.stroke();
+    ctx.strokeStyle='rgba(0,0,0,.10)';ctx.lineWidth=5;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
     ctx.beginPath();ctx.moveTo(sx,sy);
     for(let i=1;i<seg.length;i++){const[x,y]=xy(seg[i][0],seg[i][1]);ctx.lineTo(x,y);}
-    ctx.strokeStyle=cols[si];ctx.lineWidth=3;ctx.lineJoin='round';ctx.stroke();
+    ctx.strokeStyle=cols[si];ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
   });
+
+  // GPS waypoints (small)
   WPTS.forEach((wp,i)=>{
     if(!showAll&&wpDays[i]!==dayIdx)return;
     const[x,y]=xy(wp.lat,wp.lon);
-    ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);
     ctx.fillStyle=showAll?DAY_COLORS[wpDays[i]]:'#d4a043';
-    ctx.fill();ctx.strokeStyle='#1a1410';ctx.lineWidth=1.2;ctx.stroke();
+    ctx.fill();ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1;ctx.stroke();
   });
+
+  // Start / End dots
   const s0=showAll?segments[0]:segments[dayIdx];
   const[stX,stY]=xy(s0[0][0],s0[0][1]);
-  ctx.beginPath();ctx.arc(stX,stY,6,0,Math.PI*2);ctx.fillStyle='#d4a043';ctx.fill();ctx.strokeStyle='#1a1410';ctx.lineWidth=1.8;ctx.stroke();
+  ctx.beginPath();ctx.arc(stX,stY,7,0,Math.PI*2);
+  ctx.fillStyle='#d4a043';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
   const sE=showAll?segments[2]:segments[dayIdx];const le=sE[sE.length-1];
   const[enX,enY]=xy(le[0],le[1]);
-  ctx.beginPath();ctx.arc(enX,enY,6,0,Math.PI*2);ctx.fillStyle='#d4a043';ctx.fill();ctx.strokeStyle='#1a1410';ctx.lineWidth=1.8;ctx.stroke();
+  ctx.beginPath();ctx.arc(enX,enY,7,0,Math.PI*2);
+  ctx.fillStyle='#d4a043';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+
+  // Overnight stops on overview
   if(showAll){
-    [[SPLIT1,'Alba'],[SPLIT2,'Bossolasco']].forEach(([idx,name])=>{
+    [[SPLIT1,'Alba',DAY_COLORS[0]],[SPLIT2,'Bossolasco',DAY_COLORS[1]]].forEach(([idx,name,col])=>{
       const[mx,my]=xy(COORDS[idx][0],COORDS[idx][1]);
-      ctx.beginPath();ctx.arc(mx,my,8,0,Math.PI*2);ctx.fillStyle='#1a1410';ctx.fill();ctx.strokeStyle='#d4a043';ctx.lineWidth=2;ctx.stroke();
-      ctx.font='bold 9px monospace';ctx.textAlign='center';
+      ctx.beginPath();ctx.arc(mx,my,8,0,Math.PI*2);
+      ctx.fillStyle='#1a1410';ctx.fill();ctx.strokeStyle='#d4a043';ctx.lineWidth=2;ctx.stroke();
+      ctx.font='bold 8px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle='#d4a043';ctx.fillText('🏨',mx,my);
       const tw=ctx.measureText(name).width;
-      ctx.fillStyle='rgba(26,20,16,.85)';ctx.fillRect(mx-tw/2-4,my+11,tw+8,15);
-      ctx.fillStyle='#f5f0e8';ctx.textBaseline='middle';ctx.fillText(name,mx,my+18);
+      ctx.fillStyle='rgba(26,20,16,.9)';ctx.fillRect(mx-tw/2-4,my+12,tw+8,14);
+      ctx.fillStyle='#f5f0e8';ctx.fillText(name,mx,my+19);
     });
   }
-  const cx=W-36,cy=36;
-  ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);ctx.fillStyle='rgba(26,20,16,.7)';ctx.fill();
-  ctx.fillStyle='#d4a043';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('N',cx,cy-5);
+
+  // City labels on per-day maps
+  if(!showAll && CITIES[dayIdx]){
+    const cityCol = DAY_COLORS[dayIdx];
+    CITIES[dayIdx].forEach(([name,lat,lon,emoji])=>{
+      const[x,y]=xy(lat,lon);
+      // city dot
+      ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
+      ctx.fillStyle='#fff';ctx.fill();
+      ctx.strokeStyle=cityCol;ctx.lineWidth=2;ctx.stroke();
+      drawCityLabel(ctx,x,y,name,emoji,cityCol,W,H);
+    });
+  }
+
+  // Compass
+  const cx=W-34,cy=34;
+  ctx.beginPath();ctx.arc(cx,cy,13,0,Math.PI*2);
+  ctx.fillStyle='rgba(26,20,16,.65)';ctx.fill();
+  ctx.fillStyle='#d4a043';ctx.font='bold 9px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('N',cx,cy-5);
   ctx.fillStyle='rgba(245,240,232,.4)';ctx.font='7px monospace';
-  ctx.fillText('S',cx,cy+6);ctx.fillText('W',cx-7,cy);ctx.fillText('E',cx+7,cy);
+  ctx.fillText('S',cx,cy+5);ctx.fillText('W',cx-6,cy);ctx.fillText('E',cx+6,cy);
 }
 
 function drawEle(id,dayIdx){
@@ -454,33 +846,82 @@ function drawEle(id,dayIdx){
   canvas.style.width=W+'px';canvas.style.height=H+'px';
   canvas.width=W*dpr;canvas.height=H*dpr;
   const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+
   const segEle=eleSegs[dayIdx];
   const segDist=distSegs[dayIdx];
   const baseD=segDist[0];
   const rel=segDist.map(v=>v-baseD);
   const totD=rel[rel.length-1]||1;
   const minE=Math.min(...segEle),maxE=Math.max(...segEle);
-  const pad={top:18,right:10,bottom:14,left:42};
+  const pad={top:24,right:10,bottom:36,left:44};
   const iW=W-pad.left-pad.right,iH=H-pad.top-pad.bottom;
   function xP(i){return pad.left+(rel[i]/totD)*iW;}
   function yP(e){return pad.top+iH-((e-minE)/(maxE-minE||1))*iH;}
-  ctx.strokeStyle='rgba(245,240,232,.07)';ctx.lineWidth=1;
-  ctx.fillStyle='rgba(245,240,232,.25)';ctx.font='9px monospace';ctx.textAlign='right';ctx.textBaseline='middle';
+
+  // White background
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  // Top color bar
+  ctx.fillStyle=DAY_COLORS[dayIdx];ctx.fillRect(0,0,W,3);
+  // Inner bg
+  ctx.fillStyle='#f8f6f2';
+  ctx.fillRect(pad.left,pad.top,iW,iH);
+
+  // Grid lines
+  ctx.strokeStyle='rgba(180,170,155,.35)';ctx.lineWidth=1;
+  ctx.fillStyle='#9a8a7a';ctx.font='9px monospace';ctx.textAlign='right';ctx.textBaseline='middle';
   for(let i=0;i<=3;i++){
-    const y=pad.top+(iH/3)*i;ctx.beginPath();ctx.moveTo(pad.left,y);ctx.lineTo(pad.left+iW,y);ctx.stroke();
-    ctx.fillText(Math.round(maxE-((maxE-minE)/3)*i)+'m',pad.left-4,y);
+    const y=pad.top+(iH/3)*i;
+    ctx.beginPath();ctx.moveTo(pad.left,y);ctx.lineTo(pad.left+iW,y);ctx.stroke();
+    ctx.fillText(Math.round(maxE-((maxE-minE)/3)*i)+'m',pad.left-5,y);
   }
+
+  // Gradient fill
   const col=DAY_COLORS[dayIdx];
   const grad=ctx.createLinearGradient(0,pad.top,0,pad.top+iH);
-  grad.addColorStop(0,col+'cc');grad.addColorStop(1,'rgba(26,20,16,0)');
+  grad.addColorStop(0,col+'55');grad.addColorStop(1,col+'08');
   ctx.beginPath();ctx.moveTo(xP(0),pad.top+iH);
   for(let i=0;i<segEle.length;i++)ctx.lineTo(xP(i),yP(segEle[i]));
-  ctx.lineTo(xP(segEle.length-1),pad.top+iH);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.lineTo(xP(segEle.length-1),pad.top+iH);
+  ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+
+  // Line
   ctx.beginPath();ctx.moveTo(xP(0),yP(segEle[0]));
   for(let i=1;i<segEle.length;i++)ctx.lineTo(xP(i),yP(segEle[i]));
   ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
-  // color bar on top
-  ctx.fillStyle=col;ctx.fillRect(0,0,W,3);
+
+  // City markers on elevation chart
+  if(CITIES[dayIdx]){
+    CITY_KM[dayIdx].forEach((km,ci)=>{
+      if(!CITIES[dayIdx][ci])return;
+      const [cname,,,,] = CITIES[dayIdx][ci];
+      // find closest index in segDist
+      let bestI=0, bestD=Infinity;
+      rel.forEach((d,i)=>{const diff=Math.abs(d-(km-baseD));if(diff<bestD){bestD=diff;bestI=i;}});
+      const cx2=xP(bestI), cy2=yP(segEle[bestI]);
+
+      // vertical dashed line from bottom
+      ctx.strokeStyle=col+'66';ctx.lineWidth=1;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(cx2,pad.top+iH);ctx.lineTo(cx2,cy2+6);ctx.stroke();
+      ctx.setLineDash([]);
+
+      // dot on the line
+      ctx.beginPath();ctx.arc(cx2,cy2,4,0,Math.PI*2);
+      ctx.fillStyle='#fff';ctx.fill();
+      ctx.strokeStyle=col;ctx.lineWidth=2;ctx.stroke();
+
+      // city name below x-axis
+      const shortName = cname.length > 9 ? cname.slice(0,9)+'.' : cname;
+      ctx.save();
+      ctx.translate(cx2, pad.top+iH+4);
+      ctx.rotate(-Math.PI/4);
+      ctx.fillStyle='#5a4a3a';
+      ctx.font=`bold 8px -apple-system,sans-serif`;
+      ctx.textAlign='right';ctx.textBaseline='middle';
+      ctx.fillText(shortName,0,0);
+      ctx.restore();
+    });
+  }
 }
 
 function initAll(){
